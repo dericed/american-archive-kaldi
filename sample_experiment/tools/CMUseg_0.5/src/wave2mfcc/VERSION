@@ -1,0 +1,42 @@
+Thu Aug 8 14:33:07 EDT 1996 msiegler
+
+Upgrade adc2mfcc -> wave2mfcc.
+
+Allows pipes/devices instead of just files.  Reads in blocks instead
+of en-masse.  Uses the math coded by eht Eric Thayer which is more
+reliable. Allows conversion of partial files.
+
+
+8 July 1997,msiegler@cs.cmu.edu
+ First recording of versions (duh) and things are very much out of hand.
+ (27 June 1997 -- fixed DC offset and dither, now they actually do something
+
+ DC offset is implemented with a causual filter instead of batch mode, and uses
+ a fairly straightforward approximation to MAP estimate of mean, assuming
+ a Gaussian signal.  This breaks down to a linear weighting of estimated mean
+ for less than 10000 points, and full weighting afterwards
+
+ Dither is now half-bit instead of single-bit in size.
+
+29 Oct 1997,msiegler@cs.cmu.edu
+ Implementing an FFT overlap-and-add based convolution for front end processing.
+ This is intended to allow some sort of arbitrary filter to be applied to the
+ incoming audio, for example a telephone channel simulation.
+
+ Will use direct convolution until
+
+         The Numerical Recipies in C convolution and FFT code was used here for expedience,
+         but this means that redistribution is not permitted.
+
+
+version 0.3
+
+4 Nov 1997,msiegler@cs.cmu.edu
+
+ Using in-house FFT code now
+
+ Now allows the use of FIR filtering in the pre-processing stage.  Native 32-bit
+ floats are expected.  No special checking of the filter is made.  Uses simple
+ FFT code.
+
+ some minor bug fixes to eliminate warnings in compile time.

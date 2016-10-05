@@ -1,0 +1,66 @@
+UTT_findsil
+Power-Based Silence Detection
+
+man:	Matthew Siegler
+	msiegler@cs.cmu.edu	
+	August 1997
+
+code:	1996/1997	Matthew Siegler (CMU)
+
+This utility attempts to find breaks in an audio stream.  It can be used in one of
+two ways: guided and free-running.  In the guided mode, locations of interest are already
+identified (perhaps using the Kseg algorithm) and silences are to be located nearby them.
+The degree of "nearness" is a tolerance specified by the user. In the free-running mode,
+silences are detected without regard to locations of interest.
+
+In both cases, criterion for maximum and minimum utterance length can be specified, the
+program will then attempt to create segments that meet these criterion. These latter segments
+are generated in the same way that segments are created in the "free-running" mode.
+
+This program requires the input to be in the "-sphinx .mfc" format, see wave2mfcc for how
+to generate this.
+
+Silence Detection Algorithm
+---------------------------
+
+1. Define an "inner" and "outer" window.  Centerpoints for these windows are the same.
+
+	Size of inner and outer window defined by "-sw <value>" and "-sW <value>"
+
+2. Slide the window pair along a region of interest, when the following criterion are
+   met, and they are also maximized, a silence is detected:
+
+	Region of interest (guided mode) defined by "-sn <value>"
+	Region of interest (free running) defined by "-sf <value>"
+	
+	Dynamic range of the inner window < "-sd <value>"
+	Mean Power in inner window < Maximum Power in outer window - "-st <value>"
+	Maximum segment length = "-m <value>"
+	Minimum segment length = "-n <value>"
+
+3. If neither criterion is met, no silence is detected.
+
+
+File Formats
+------------
+
+The input report is of the format:
+
+	<file name> <start frame> <end frame> <utterance id> [<point of interest 1> <point of interest 2> .... ]
+
+The output report is piped to stdout.
+
+	<utterance id> <silence point 1> <silence point 2> ....
+
+Unless the '-D (detail)' is specified then it is:
+
+	<utterance id> <silence point 1> <silence depth 1> <silence dynamic range 1> ....
+
+
+CMU Hub 4 1996 Evaluation Settings
+----------------------------------
+	-sw 7 -sW 200 -sn 200 -st 8 -sd 10
+
+
+
+

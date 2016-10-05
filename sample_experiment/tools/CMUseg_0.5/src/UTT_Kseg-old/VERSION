@@ -1,0 +1,27 @@
+Tue Jun 17 17:04:47 EDT 1997 msiegler
+Bug found by jonathan.fiscus@nist.gov
+> I ran into another problem with UTT_Kseg.  The variable S->Kin is
+> getting
+> munged.  There is an assignment to Kin in math.c where fr is -256.
+> 
+>       if (fr >= S->win_len && fr < S->data_size-S->win_len)
+>         {
+>           k = k/(float)S->data_dim;
+>           S->Kin[fr] = k;
+>         }
+>       else
+>         S->Kin[fr] = 0;
+> 
+> I don't know what's going on in the code, so I won't hazard a guess.
+> Can you see a fix?
+
+
+Yeah, the boundary conditions aren't being tested here. The idea was to generate
+a sum over a window that might overlap the endpoints of an utterance, in which case it
+was supposed to pad with zeros (functionally) which it does except here:
+
+(change to)
+
+	else
+	  if (fr >=0 && fr <=S->data_size)
+	    S->Kin[fr] = 0;

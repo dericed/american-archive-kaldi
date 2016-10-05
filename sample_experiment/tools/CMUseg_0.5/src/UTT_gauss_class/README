@@ -1,0 +1,89 @@
+UTT_gauss_class
+Classify utterances using prior distributions
+
+man:	Matthew Siegler
+	msiegler@cs.cmu.edu	
+	August 1997
+
+code:	1996/1997	Matthew Siegler (CMU)
+
+
+        Usage: UTT_gauss_class
+        -i <ctl_file> -id <mfc_dir> -ie <mfc_ext> 
+        -c <class_file> -r <report_file> 
+        [-d <dist dir>] [-v (verbose)]
+         <ctl_file> is of form <mfcfile> <stframe> <eframe> <id>
+
+
+<class_file>
+
+example:
+1
+ModelChoice 6
+G       1       f0.dist.16
+F       1       f0-female.dist.16
+M       1       f0-male.dist.16
+G       1       f4.dist.16
+G       1       f3.dist.16
+P       1       tel.dist.8
+
+
+class file is of format
+   
+   <number independent classifiers>
+   <classifier #1: NAME (string)> <classifier #1: number of classes>
+   <classifier #1: class #1: NAME (string)> <#1,#1 prior prob> <#1,#1 distribution file>
+   <classifier #1: class #2: NAME (string)> <#1,#2 prior prob> <#1,#2 distribution file>
+   .
+   .
+   <classifier #2: NAME (string)> <classifier #2: number of classes>
+   <classifier #2: class #1: NAME (string)> <#2,#1 prior prob> <#2,#1 distribution file>
+   <classifier #2: class #2: NAME (string)> <#2,#2 prior prob> <#2,#2 distribution file>
+   .
+   .
+
+Priors are normalized before computation
+
+distribution file format
+------------------------
+	<number of mixtures> <number of components per mixture>
+	<mixture weight 1>
+	<mean of mixture 1, component 1> <mean of mixture 1, component 2>....
+	<variance of mixture 1, component 1> <variance of mxiture 1, component 2>....
+	<mixture weight 2>
+	<mean of mixture 2, component 1> <mean of mixture 2, component 2>....
+	<variance of mixture 2, component 1> <variance of mxiture 2, component 2>....
+	.
+	.
+	.
+
+
+<dist dir> contains files of the name in <distribution file> in classes,
+(otherwise assumed to be in the current directory)
+
+
+<report_file> looks like:
+
+ <id> <class> <confidence>
+
+where <confidence> is the difference in log-likelihood between the top two most likely classes
+
+(from the PE)
+file1_F0_65_763_001  M 0.1279
+file1_F4_764_1479_001  M 0.0668
+file1_F4_1480_11396_001  G 0.0557
+file1_F4_11397_12678_001  M 0.1456
+file1_F4_12679_20887_001  G 0.4049
+file1_F4_20888_21571_001  G 0.3462
+file1_F0_21593_21835_002  G 0.0396
+
+
+In our eval, we mapped down all the classes into the G and P (telephone) models anyway, and the
+performance was very good (see our eval paper)
+
+
+CMU Hub 4 1996 Evaluation Settings
+----------------------------------
+	-c h496-classes -d h496-distributions
+
+	See these files in this directory for the distributions and priors.

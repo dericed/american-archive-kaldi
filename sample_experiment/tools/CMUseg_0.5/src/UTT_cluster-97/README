@@ -1,0 +1,56 @@
+Tue Feb 17 12:38:17 EST 1998
+UTT_cluster
+Cross Entropy Based Utterance Clustering
+
+man:    Matthew Siegler
+        msiegler@cs.cmu.edu
+        November 1997
+
+code:   1996/1997       Matthew Siegler (CMU)
+                        Bhiksha Raj (CMU)
+
+This program clusters utterances using the "symmetric cross entropy" or KL2
+statistical measure. Clustering is an agglomerative (bottom-up) heirarchical
+algorithm, producing new centroids for each cluster. The original purpose of this
+program is to generate clusters of data that are likely to come from the same
+speaker/channel combination for unsupervised adaptation.
+
+Clustering criterion for combining two clusters is based on the maximum distance
+between any item in the combined cluster and the centroid of the combined cluster.
+
+Although there are theoretical confidence intervals for the distance metric, these 
+are not practical for the broadcast news domain. Thresholds for minimum, maximum
+cluster size are available, along with the distance threshold.
+
+Input files are of the "-sphinx .mfc format" as specified in the wave2mfcc program.
+
+FILE CONTROL
+------------
+        -c <ctlfile> [-d <in dir> -e <in ext>] -r <report_file> [-v (verbose)]
+
+Control file takes the form
+        <mfcfile> <begin frame> <end frame> <uttid>
+
+The report is a list of utterance ids and their cluster numbers
+        <uttid> <cluster number>
+
+
+SEGMENTATION PARAMETERS
+-----------------------
+[-f <value>] variance floor def=0.000
+
+[-t <distance threshold>] maximum permissable distance between a
+                          cluster item and the cluster centroid (def = 0.00: no tolerance!)
+
+[-m <cluster minimum count> for VAR trust] how many observations are needed to trust a variance
+                                           estimator (def =none: no minimum!)
+
+[-M <cluster maximum count>] the largest permissible size of a cluster (def=none: no maximum!)
+
+[-v] (VERY) verbose diagnostics
+
+
+for the evaluation, CMU used:
+	-t 0.03 -m 200 
+
+

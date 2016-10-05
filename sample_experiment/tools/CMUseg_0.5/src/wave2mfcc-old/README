@@ -1,0 +1,157 @@
+wave2mfcc
+Convert Audio to MelFreq Cepstra
+
+man:	Matthew Siegler
+	msiegler@cs.cmu.edu	
+	August 1997
+
+code:	< 1992		MIT-LCS	(MIT)
+	1992/1993	Yoshiaki Ohshima (formerly CMU)
+	1995/1996	Eric Thayer (CMU)
+	1996/1997	Matthew Siegler (CMU)
+
+Convert sound files into mfc files for use with a decoder or other speech
+processing utility.  Filter mathematics designed at MIT in MIT-LCS, further
+refined by Yoshiaki Ohshima (CMU) in 1992/1993. Blocking strategy and API
+written by Eric Thayer (CMU) in 1995/1996. Unified, and generally munged by
+Matthew Siegler (CMU) in 1996/1997 for general community distribution.
+
+Many of the options found in the help screen are still not implemented,
+but are available in the BATCH-mode version "adc2mfcc" of this code which is
+still available at http://www.cs.cmu.edu/~robust/Software/adc2mfcc.tar.Z
+
+This program will read files or portions of files encoded as raw binary, "adc"
+DARPA (<=1993) format, or NIST "sphere" wave files (>1993), and generate cepstral
+data in the "mfc" format used by CMU in the SPHINX II & SPHINX III systems.
+The NIST format specification is available at ftp://jaguar.ncsl.nist.gov, and the
+CMU format is still folklore, but references are available in the SPHINX II DARPA papers.
+
+In this document, areas of uncertainty, or generally poorly understood concepts are
+appended with "(?)"
+
+
+FILE CONTROL
+------------
+File processing occurs in one of two manners, single file or multi file mode. The
+single file mode is specified with
+
+-i <input file> -o <output file>
+
+and the multiple file mode is specified with
+
+-c <control file>
+	-di <input directory> -ei <input file extension>
+	-do <output directory> -eo <output file extension>
+
+The <control file> contrains a set of utterances to be found in the input directory,
+containing no extensions, and possible containing subdirectories.  Wave2mfcc attempts
+to read these files by forming a string
+
+	<input directory>/<input file>/<input file extension>
+
+and in a similar way writes to the output file. Wave2mfcc WILL NOT CREATE SUBDIRECTORIES
+for you.  So if the input files contain them, make sure you have subdirectories to receive
+them.
+
+The control file format can be in one of two ways:
+
+ <input file> 
+ <input file> <output file>
+ <input file> <output file> <start time (in seconds)>
+ <input file> <output file> <start time> <end time>
+
+INPUT FORMAT
+------------
+To use NIST's sphere format (V2.6 or earlier) use the "-sphere" flag. If you have raw binary
+data, use the "-raw" flag, with the appropriate endian.  "-adc" is handled in a similar way,
+but is strict to the adc format 1 (?)
+
+
+OUTPUT FORMAT
+-------------
+Unless specified, the output file will be a set of floating points vectors in native byteorder.
+The size and type of vectors is specified in the FILTER PARAMETERS section.
+
+"-sphinx" forces an int32 header to be written, containing the number of floating points in
+BigEndian, followed by BigEndian floating points. In addition, the values of the cepstra are
+scaled down to a rage that SPHINX expects. (?)
+
+"-logspec" forces the output vector to contain logspectra instead of mel-cepstra, see the 
+FILTER PARAMETERS section.
+
+
+FILTER PARAMETERS
+-----------------
+"-alpha"	This is a simple IIR preemphasis filter of the form y[n] = y[n] - alpha*y[n-1]
+"-srate"	Sets the sampling rate of the input file in Hz
+"-frate"	Sets the output frame rate (number of vectors) in Hz
+"-wlen"		Is the size of the hamming window for calculating the FFT
+"-dft"		Is the number of points used in computing the DFT (1/2 the FFT size)
+"-nfilt"	Is the number of triangular filters to use
+"-nlog"		Is the portion of traingular filters that will be logarithmically spaced in freq
+"-logsp"	Is the ratio to be used in spacing the logarithmically spaced filters
+"-linsp"	Is the separation to be used in spacing the linearly spaced filters
+"-lowerf"	Is the lower edge of the lowest frequency filter
+"-upperf"	Is the higher edge of the highest frequency filter
+"-ncep"		Is the number of features to generate (13 for cep, 40 for logspec)
+
+INPUT PROCESSING
+----------------
+"-DC"		Will perform causual DC offset removal.
+"-dither"	Will add 1/2-bit noise to the signal which is necessary if the data
+		contains lots of zeros (such as mu-law data) since the log will otherwise
+		be undefined.
+
+DIAGNOSTICS
+-----------
+"-showfilt"	Will print out the filter definitions
+"-verbose"	Shows lots of diagnostics about reads and writes
+"-help"		Displays a concise help screen
+
+
+
+CMU Hub 4 1996 Evaluation Settings
+----------------------------------
+
+wave2mfcc -sphinx 
+	Used for most of the CMU evaluation stuff.
+
+wave2mfcc \
+ -sphinx -sphere \
+ -di $dir_sphere -ei $ext_sphere \
+ -do $dir_mfc -eo "8k.$ext_mfc" \
+ -c tmp.$$1.shows.ctl \
+ -dft 512 \
+ -srate 16000 \
+ -nfilt 31 \
+ -nlog 18 \
+ -upperf 3500.0 \
+ -lowerf 200.0 \
+ -linsp 62.0 \
+ -logsp 1.07117 \
+ -alpha 0 \
+
+	Used to extract telephone data from 16kHz sampled data
+
+
+
+
+$root/bin/$arch/wave2mfcc \
+ -sphinx -sphere \
+ -di $dir_sphere -ei $ext_sphere \
+ -do $dir_mfc -eo "8k.$ext_mfc" \
+ -c tmp.$$1.shows.ctl \
+ -dft 256 \
+ -srate 8000 \
+ -nfilt 31 \
+ -nlog 18 \
+ -upperf 3500.0 \
+ -lowerf 200.0 \
+ -linsp 62.0 \
+ -logsp 1.07117 \
+ -alpha 0 \
+
+	Used to extract telephone data from 8kHz sample data.
+
+
+

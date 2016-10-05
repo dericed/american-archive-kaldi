@@ -1,0 +1,8 @@
+1
+ModelChoice 6
+G	1 	f0.d16
+F	1	f0_fem.d16
+M	1	f0_mal.d16
+G 	1	f4.d16
+G	1	f3.d16
+P	1	tel.d8

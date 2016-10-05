@@ -1,0 +1,43 @@
+
+			CMUseg 0.5
+
+This directory contains the binaries, source code and segmentation
+script for the CMUseg Waveform Segmentation package.  Precompiled
+binaries include the DEC OSF1, HPUX, LINUX and SUN architectures.  See
+'install.txt' for compilation and usage instructions.
+
+Detailed READMEs are provided for each program modules of CMUseg
+within their individual source code subdirectories, 'src/<MODULE>'.
+
+Bundled with the package is a wrapper script, 'scripts/CMUseg.pl',
+which will perform a 'default' segmentation for ARPA's Hub 4 Broadcast
+News Unpartitioned Evaluation.  The usage statement of the script is
+the user documentation for the script.
+
+
+
+ACKNOWLEDGMENTS:
+
+The segmentation package was written be Matthew Siegler,
+<msiegler@cs.cmu.edu> at CMU.  Packaging and consolidation was
+performed by Jonathan Fiscus, <jonathan.fiscus@nist.gov> at NIST.
+Please send your bug reports and comments to both addresses.
+
+REVISION HISTORY:
+
+Version 0.4: Released Aug. 26, 1997
+
+Version 0.4a: Released Oct. 23, 1997
+   - Updated CMUSeg.pl to version 1.1, (See the script for details)
+
+Version 0.5: Released Aug, 1998
+   - Updated wave2mfcc: added FIR filter in front end
+   - Updated all .h files to deal with linux byteorder problems
+
+
+
+
+
+
+
+

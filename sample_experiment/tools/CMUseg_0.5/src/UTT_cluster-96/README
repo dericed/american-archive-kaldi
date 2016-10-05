@@ -1,0 +1,27 @@
+Tue Nov 12 14:51:57 EST 1996 msiegler
+Clusters utterances together based on Symmetric Cross Entropy values
+also known as the KL2 metric, derived from single-mode distrbutions
+on the .mfc files,
+
+Uses agglomerative clustering technique to try to build clusters meeting the
+criterion that the distance between items in a cluster is less than [-t] and
+the total amount of frames in each cluster is at least [-m]
+
+Usage: UTT_cluster
+-i <ctl_file> -d <mfc_dir> -e <mfc_ext> 
+-r <report_file> [-t (distance threshold (0-1) def=0.00)]
+[-m minimum cluster size in frames def=0 (none)] [-v (verbose)]
+
+
+control file format looks like
+
+<.mfc file source> <start frame> <end frame> <utterance id>
+The report file takes the following form:
+
+<utterance id> <cluster #>
+
+
+
+For the CMU Hub 4 1996 evaluation we used:
+	-t 0.025 -m 1000
+

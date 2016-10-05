@@ -1,0 +1,111 @@
+   			CMUSeg  Release 0.4
+
+I. Overview
+
+Most of the algorithms used in the segmentation, classification and
+clustering are found in:
+ 
+        Siegler, Jain, Raj and Stern,
+        "Acoustic Segmentation, Classification and Clustering of 
+	Broadcast News Audio," Proceedings of the Speech Recognition Workshop, 1997.
+ 
+
+II. Installation:
+
+This release contains C source code for the CMU segmentation tools and
+binary files for the DEC ALPHA, HPUX, LINUX and SUN4 architectures.
+At CMU, the tools have been compiled and tested under the DEC ALPHA,
+HPUX, SUN and LINUX operation systems.  NIST has only tested the code
+under the SUN Solaris operating system.
+
+THE USER MAY EITHER SKIP THIS INSTALLATION SECTION AND USE THE
+PRE-COMPILED PROGRAMS OR THE USER MAY CHOOSE TO COMPILE THE SOURCE
+CODE FROM SCRATCH.
+
+....
+
+If you reading this, you have decided to compile this package.  You
+will need the GNU make utility to compile this package.  Follow these
+steps for compilation and installation:
+
+1. Change directory to the 'src' directory.
+
+2. Prepare the NIST Sphere Package.  
+
+There are two alternative ways to prepare the SPHERE libraries.
+First, CMUSeg comes bundled with the SPHERE 2.6 source code tree.  You
+can make the libraries and executables by executing the command:
+
+	% gmake sphere_lib
+	
+[ The 'make' command on at least one DEC ALPHA system had trouble 
+  compiling the SPHERE package.  Before sending a bug report, try
+  changing directory to 'src/lib/sphere' and run the command 
+  'sh src/scripts/install.sh'.  If problems persist, contact NIST. ]	
+
+Alternatively, if you already have SPHERE 2.5 or later already
+installed on your system, you can make a UNIX soft link to your
+pre-existing installation.  To do so, delete the bundled sphere
+directory by executing 'rm -r sphere' while you are in the 'src/lib'
+directory.  Next, make a UNIX soft link to your pre-existing
+installation of sphere by executing the command:
+	
+	% ln -s <YOUR_SPHERE_DIR> sphere
+
+	where <YOUR_SPHERE_DIR> is the top-directory of your
+	sphere installation.
+
+3. Compile the segmentation modules:
+
+While in the 'src' directory, first set an environment variable 'arch'
+identifying the compilation architecture.  The defined architectures
+are: 'hpux', 'alpha_osf1', 'sun', or 'linux'.  Depending on your UNIX
+shell, set the environment variable as follow:
+
+	Bourne shells:
+		% set arch=sun; export arch
+
+	Bash:
+		% export arch=sun
+
+	Csh/Tcsh shells:
+		% setenv arch sun
+
+Compile and install the segmentation modules by executing the commands:
+
+	% gmake 
+	% gmake install
+
+After completion, the binary directory, 'bin/$arch' will contain the
+follow executables:
+
+	UTT_Kseg UTT_cluster UTT_findsil wave2mfcc UTT_gauss_class
+
+III. Segmentation:
+
+A wrapper script, 'script/CMUSeg.pl', has been supplied with the
+package which uses the compiled programs to automatically segment the
+speech.  
+
+The script requires the following:
+
+	1. A NIST formatted Unpartitioned Evaluation Map (UEM) file.
+	2. The location of NIST SPHERE formatted audio files.
+	3. A temporary directory to store parameterized files. 
+	   The required disk space for derivative files is roughly 20
+	   Mb. per hour of speech.
+        4. The location of the CMUSeg installation directory.
+
+Executing the script without any arguments will give the user a usage
+page.  The typical execution running the segmenter on the Hub4 '96
+evaluation data will look like this:
+
+	% ./scripts/CMUseg.pl -w <WAVE_DIR> -v -t /tmp/segdata \
+		-r <CMUSEG_DIR> h496ev.uem h496ev_auto.pem
+
+
+IV. Bug Reports and Comments
+
+Please send your bug reports and comments to Matthew Siegler
+<msiegler@cs.cmu.edu> at CMU and Jonathan Fiscus
+<jonathan.fiscus@nist.gov> and NIST.

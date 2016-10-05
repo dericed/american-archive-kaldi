@@ -1,0 +1,47 @@
+Segmentation.tar
+Collection of segmenter utilities for 96/97 Hub-4 CSR task.
+
+man:    Matthew Siegler
+        msiegler@cs.cmu.edu
+        August 1997
+
+
+This collection contains:
+
+wave2mfcc		convert audio files into mfcc (cepstra) files
+UTT_Kseg		find statistical changepoints
+UTT_findsil		find silences near changepoints
+UTT_gauss_class		acoustically classify segments
+UTT_cluster		cluster utterances based on KL2 metric
+ (two version exist, 96 and 97, the latter working better in the UE for H4-97)
+
+lib/mfc_io		mfc read and write routines
+lib/fe			Front End for wave2mfcc, (requires NIST sphere 2.5 or greater,
+			contact jonathan.fiscus@nist.gov)
+lib/NIST		NIST sphere package (not included in this distribution)
+			See the readme for directory format.
+
+
+Each utility has a README with it to aid in running the program, including the
+parameters that CMU used to run the Hub 4 1997 evaluation. In the evaluation, we ran
+the following (in order)
+
+(for UE data)
+UTT_Kseg		To locate change in acoustic conditions
+UTT_findsil		To find the places to legally draw a break
+UTT_gauss_class		To detect telephone BW speech
+UTT_cluster		To cluster the utterances for MLLR adaptation
+
+(for PE data)
+UTT_findsil 
+UTT_gauss_class
+UTT_cluster
+
+
+Most of the algorithms used in the segmentation, classification and clustering are found in:
+
+	Siegler, Jain, Raj and Stern,
+	"Acoustic Segmentation, Classification and Clustering of Broadcast News Audio,"
+	Processdings of the Speech Recognition Workshop, 1997.
+
+

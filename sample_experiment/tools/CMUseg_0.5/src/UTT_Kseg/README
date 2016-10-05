@@ -1,0 +1,56 @@
+UTT_Kseg
+Cross Entropy Based Segmentation
+
+man:	Matthew Siegler
+	msiegler@cs.cmu.edu	
+	August 1997
+
+code:	1996/1997	Matthew Siegler (CMU)
+			Bhiksha Raj (CMU)
+
+This program locates statistical changepoints in an audio file, using the
+"symmetric cross entropy" or KL2 statistical measure. This measure is computed
+as the statistical difference between two adjacent windows.  If the difference
+is a local maximum (and above some threshold) a changepoint has been detected.
+
+***	There has been some contention that this is not a theoretically motivated
+	technique, but in fact the threshold of 0.02 is approximately 95% confidence interval
+	for the hypothesis "these statistics are different"
+
+Input files are of the "-sphinx .mfc format" as specified in the wave2mfcc
+program.
+
+FILE CONTROL
+------------
+	-c <ctlfile> [-d <in dir> -e <in ext>] -r <report_file> [-v (verbose)]
+
+Control file takes the form
+	<mfcfile> <begin frame> <end frame> <uttid>
+
+The report is a list of the most likely breakpoints for each utterance like this:
+	<mfcfile> <uttid> <begin F> <BP 1> <BP 2> .... <BP N> <end F>
+
+This is usually then sent to the silence detector (UTT_findsil) to find chopping locations.
+
+
+SEGMENTATION PARAMETERS
+-----------------------
+[-w <value>] width of comparison windows (in # frames) def=250
+[-s <value>] scanning length for peaks (in # frames) def=500
+[-h <value>] length of smoothing window (Hamming, in # frames) def=100
+[-m <value>] minimum Kseg threshold def=0.020
+[-f <value>] variance floor def=0.000
+
+Firstly, the KL2 value is computed for all points in the input utterance that have left and
+right contexts of at least "-w <value>".  Then, these values are smoothed using a hamming window
+of length "-h <value>". Finally, local maximum are searched within a region of "-s <value>." As
+long as the maximum exceed "-m <threshold>" it is output.
+
+In some circumstances, the variance of data may be zero.  In these cases, the metric is undefined.
+When this happens, a variance "-f <value>" floor should be specified.
+
+
+CMU Hub 4 1996 Evaluation Settings
+----------------------------------
+	-h 100 -w 250 -s 500 -v -m 0.05 -f 0.1
+

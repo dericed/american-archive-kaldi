@@ -1,0 +1,20 @@
+Thu Aug 8 14:33:07 EDT 1996 msiegler
+
+Upgrade adc2mfcc -> wave2mfcc.
+
+Allows pipes/devices instead of just files.  Reads in blocks instead
+of en-masse.  Uses the math coded by eht Eric Thayer which is more
+reliable. Allows conversion of partial files.
+
+
+8 July 1997,msiegler@cs.cmu.edu
+ First recording of versions (duh) and things are very much out of hand.
+ (27 June 1997 -- fixed DC offset and dither, now they actually do something
+
+ DC offset is implemented with a causual filter instead of batch mode, and uses
+ a fairly straightforward approximation to MAP estimate of mean, assuming
+ a Gaussian signal.  This breaks down to a linear weighting of estimated mean
+ for less than 10000 points, and full weighting afterwards
+
+ Dither is now half-bit instead of single-bit in size.
+
