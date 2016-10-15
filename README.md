@@ -11,6 +11,8 @@
 ##Notes about Kaldi
 It is recommended that you review the [Kaldi documentation] (http://kaldi-asr.org/doc/) before you begin, especially if you intend to modify the compiled model included on Sourceforge.
 
+The models linked to from this repo are trained on public media content from NPR and many podcasts. This software is intended specifically for the transcription of public media content, though anyone is welcome to use it on content of their choosing.
+
 ## Expected Set-up
 Each model you experiment with should have its own directory. Start by putting the exp dir from Sourceforge in the `sample_experiment` dir.
 ### Preliminaries for your experiment dir (e.g. `sample_experiment`)
@@ -36,4 +38,6 @@ You can use the current model as is, or add your own lexicon or language model.
 * Use `sh add_grammar.sh [LM-FILEPATH]` to create a new language model based on an LM textfile and to update the overall model.
 
 ## Acknowledgements
+The development of this software was funded by an Institute of Museum and Library Services Research Grant to WGBH for the “Improving Access to Time Based Media through Crowdsourcing and Machine Learning” project. 
+
 This repo is based on [work] (https://github.com/APMG/audio-search) done by APM with Cantab Research.
