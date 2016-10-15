@@ -40,4 +40,7 @@ You can use the current model as is, or add your own lexicon or language model.
 ## Acknowledgements
 The development of this software was funded by an Institute of Museum and Library Services Research Grant to WGBH for the “Improving Access to Time Based Media through Crowdsourcing and Machine Learning” project. 
 
+Read more here: https://americanarchivepb.wordpress.com/2015/09/14/imls-aapb-pop-up-archive-grant/
+See the full proposal here: https://www.imls.gov/sites/default/files/proposal_narritive_lg-71-15-0208_wgbh_educational_foundation.pdf
+
 This repo is based on [work] (https://github.com/APMG/audio-search) done by APM with Cantab Research.
