@@ -11,7 +11,9 @@
 ##Notes about Kaldi
 It is recommended that you review the [Kaldi documentation] (http://kaldi-asr.org/doc/) before you begin, especially if you intend to modify the compiled model included on Sourceforge.
 
-The models linked to from this repo are trained on public media content from NPR and many podcasts. This software is intended specifically for the transcription of public media content, though anyone is welcome to use it on content of their choosing.
+The models linked to from this repo are trained on public media content from NPR and many podcasts. This software is intended specifically for the transcription of public media content, though anyone is welcome to use it for content of their choosing.
+
+Read more about this software: https://docs.google.com/presentation/d/1ZL0Qg-tsAp6zg95IEKit8fgtf5kISTriUjKe0UrbG7E/edit?usp=sharing
 
 ## Expected Set-up
 Each model you experiment with should have its own directory. Start by putting the exp dir from Sourceforge in the `sample_experiment` dir.
